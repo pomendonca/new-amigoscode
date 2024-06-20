@@ -1,6 +1,9 @@
 package com.amigoscode.customer;
 
-public record CustomerService() {
+import org.springframework.stereotype.Service;
+
+@Service
+public record CustomerService(CustomerRepository customerRepository) {
 
     public void registerCustomer(CustomerRegistrationRequest customerRegistrationRequest) {
         Customer customer = Customer.builder()
@@ -8,10 +11,11 @@ public record CustomerService() {
                 .lastName(customerRegistrationRequest.lastName())
                 .email(customerRegistrationRequest.email())
                 .build();
-    }
 
-    //todo: check if email valid
-    //todo: check if email not taken
-    //todo: store customer in db
+        //todo: check if email valid
+        //todo: check if email not taken
+
+        customerRepository.save(customer);
+    }
 
 }
